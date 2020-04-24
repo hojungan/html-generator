@@ -56,7 +56,8 @@ class WcagTable extends HTMLElement {
     }
   }
 
-  writeTableHTML(data) {
+  writeTableHTML() {
+    let data = this.getTableFormData()
     let rows = data.rows,
       cols = data.cols,
       header = data.header
@@ -68,20 +69,26 @@ class WcagTable extends HTMLElement {
       if (i == 0) {
         body += `${openTag("tr")}`
       } else {
-        body += `\n      ${openTag("tr")}`
+        body += 
+        `
+        ${openTag("tr")}`
       }
 
       for (let j = 0; j < cols; j++) {
         // header is first row
         if (header == "row" && i == 0) {
-          body += `\n\t${openTag("th")}Header Cell ${j + 1}${closeTag("th")}`
+          body += `
+          ${openTag("th")}Header Cell ${j + 1}${closeTag("th")}`
         } else if (header == "col" && j == 0) {
-          body += `\n\t${openTag("th")}Header Cell ${i + 1}${closeTag("th")}`
+          body += `
+          ${openTag("th")}Header Cell ${i + 1}${closeTag("th")}`
         } else {
-          body += `\n\t${openTag("td")}Cell ${j + 1}${closeTag("td")}`
+          body += `
+          ${openTag("td")}Cell ${j + 1}${closeTag("td")}`
         }
       }
-      body += `\n      ${closeTag("tr")}`
+      body += `
+      ${closeTag("tr")}`
     }
 
     let table = `
@@ -93,6 +100,8 @@ class WcagTable extends HTMLElement {
     return table
   }
 
+
+
   connectedCallback() {
     this.shadowRoot.querySelector("#generate").addEventListener("click", (e) => {
       e.preventDefault()
@@ -103,6 +112,9 @@ class WcagTable extends HTMLElement {
 
       document.querySelector("code").innerHTML = html
     })
+  }
+
+  disconnectedCallback() {
   }
 }
 

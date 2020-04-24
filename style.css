@@ -53,8 +53,15 @@
   overflow-y: scroll;
 }
 
+#html5 pre {
+  margin-top: 15px;
+  tab-size: 2;
+  white-space: pre-wrap;
+}
+
 code {
   cursor: text;
+  /* margin-left: -70px; */
 }
 
 @media (max-width: 800px) {

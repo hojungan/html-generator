@@ -24,10 +24,12 @@ imageTemplate.innerHTML = `
   <div id="desc-field">
     <div class="form-group">
       <label for="desc-link">Link to long desription</label>
-      <input type="text" id="longDescLink" class="form-control" placeholder="Description link" />
+      <input type="text" id="longDescLink" class="form-control mb-3" placeholder="Description link" />
+      <label for="linkText">Link Text</label>
+      <input type="text" id="linkText" class="form-control mb-3" placeholder="Link Text" />
       <span>OR</span><br>
-      <label for="desc-text">Long Description</label>
-      <textarea class="form-control" id="desc-text" rows="7"></textarea>
+      <label for="desc-text" class="mt-3">Long Description</label>
+      <textarea class="form-control" id="desc-text" rows="7" placeholder="Long description here..."></textarea>
     </div>
   </div>
   <button class="btn btn-primary mt-3" id="generate">Generate Image HTML</button>
@@ -48,9 +50,28 @@ class WcagImage extends HTMLElement {
       imgSrc: form.querySelector("#source").value,
       imgAlt: form.querySelector("#alt").value,
       haveLongDesc: form.querySelector("#longDesc").checked,
-      longDescLink: form.querySelector("#longDescLink"),
-      longDescText: form.querySelector("#desc-text")
+      longDescLink: form.querySelector("#longDescLink").value,
+      longDescText: form.querySelector("#desc-text").value,
+      linkText: form.querySelector("#linkText").value
     }
+  }
+
+  writeImageHtml(data) {
+    let image;
+
+    // Image have long description
+    if(data.haveLongDesc && data.longDescLink){
+      image = `
+      ${openTag('p')}
+        ${openTag('img', {src: data.imgSrc, alt: data.imgAlt}, true)}
+        ${openTag('a', {href: data.longDescLink})}${data.linkText}${closeTag('a')}
+      ${closeTag('p')}`
+    }
+    else{
+      image = openTag('img', {src: data.imgSrc, alt: data.imgAlt}, true)
+    }
+
+    return image
   }
 
   connectedCallback() {
@@ -64,10 +85,26 @@ class WcagImage extends HTMLElement {
         longDescField.style.display = "none"
       }
     })
+
+    this.shadowRoot.querySelector("#longDescLink").addEventListener('keyup', (e) => {
+      console.log(e.target.value)
+
+      this.shadowRoot.querySelector("#desc-text").readOnly = e.target.value != ""
+
+    })
+
+    this.shadowRoot.querySelector("#generate").addEventListener('click', (e) => {
+      e.preventDefault()
+
+      let data = this.getImageFormData()
+      let image = this.writeImageHtml(data)
+
+      document.querySelector("code").innerHTML = image
+    })
+
   }
 
   disconnectedCallback() {
-    this.shadowRoot.querySelector("#longDesc").removeEventListener()
   }
 }
 
