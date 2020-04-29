@@ -1,3 +1,21 @@
+.bypass {
+  display: block;
+  width: 150px;
+  margin: auto;
+  height: 0;
+  overflow: hidden;
+  background-color: teal;
+  color: #fff;
+  text-align: center;
+  transition: all 0.5s ease-in-out;
+}
+
+.bypass:focus {
+  height: 25px;
+  overflow: visible;
+  transition: all 0.5s ease-in-out;
+}
+
 .categoryWrapper {
   display: flex;
   flex-wrap: wrap;
@@ -21,7 +39,6 @@
 
 #component {
   width: 40%;
-  /* height: 40rem; */
   padding: 20px;
   border-radius: 10px;
   text-align: center;
@@ -34,12 +51,18 @@
   position: relative;
 }
 
-#copy {
+#previewCSS {
+  position: relative;
+}
+
+#copy,
+#copyCSS {
   border: 0;
   font-weight: bold;
   padding: 0.3rem;
   background: #ddd;
   position: absolute;
+  top: 0;
   right: 0;
   width: 6rem;
   height: 2rem;
@@ -56,16 +79,53 @@
 #html5 pre {
   margin-top: 15px;
   tab-size: 2;
-  white-space: pre-wrap;
 }
 
 code {
   cursor: text;
-  /* margin-left: -70px; */
 }
 
-@media (max-width: 800px) {
-  #main {
+caption {
+  caption-side: top;
+}
+
+.previewPane {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.previewPane div {
+  flex: 1;
+  margin: 4px;
+  border-radius: 10px;
+}
+
+.wcag-table {
+  border-collapse: collapse;
+  border: 1px solid #333;
+}
+
+.wcag-table th,
+.wcag-table td {
+  border: 1px solid #333;
+  padding: 5px;
+  text-align: center;
+}
+
+footer {
+  height: 150px;
+  background-color: #2f3038;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10rem;
+}
+
+@media (max-width: 1000px) {
+  #main,
+  .previewPane {
     flex-direction: column;
   }
 

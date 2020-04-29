@@ -11,32 +11,47 @@
 </head>
 
 <body>
-  <h1 class="m-0 p-0 text-center">WCAG HTML5 Generator</h1>
+  <header>
+    <a href="#main" class="bypass">Skip to Content</a>
+    <h1 class="m-0 p-0 text-center">WCAG HTML5 Generator</h1>
+  </header>
 
-  <div class="categoryWrapper mt-5 p-3">
-    <button class="btn btn-primary menu" data-name="table">Table</button>
-    <button class="btn btn-primary menu" data-name="figure">Figure</button>
-    <button class="btn btn-primary menu" data-name="image">Image</button>
-    <button class="btn btn-primary menu" data-name="accordion">Accordion</button>
-  </div>
+  <nav>
+    <div class="categoryWrapper mt-5 p-3">
+      <button class="btn btn-primary menu" data-name="table">Table</button>
+      <button class="btn btn-primary menu" data-name="image">Image</button>
+      <button class="btn btn-primary menu" data-name="accordion">Accordion</button>
+    </div>
+  </nav>
 
   <main id="main" class="mt-2 p-5">
     <div class="shadow" id="component">
       <div id="component-container">
         <wcag-table></wcag-table>
-        <!-- <wcag-image></wcag-image> -->
       </div>
     </div>
     <div class="shadow" id="result">
       <button id="copy">COPY</button>
       <figure id="html5">
         <pre>
-          <code data-lang="html">
-          </code>
         </pre>
       </figure>
     </div>
   </main>
+
+  <section class="pl-5 pr-5">
+    <h1>Result Preview</h1>
+    <div class="previewPane">
+      <div id="previewHTML" aria-label="HTML Preview" class="shadow p-4"></div>
+      <div id="previewCSS" aria-label="CSS Source Code" class="shadow p-4">
+        <button id="copyCSS">COPY</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    By Hojung An - 2020
+  </footer>
 
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

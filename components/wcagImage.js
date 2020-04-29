@@ -4,6 +4,7 @@ imageTemplate.innerHTML = `
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
 
 <div class="container">
+<a href="https://www.w3.org/WAI/tutorials/images/complex/#a-text-link-to-the-long-description-adjacent-to-the-image" title="Web Accessibility Tutorial by W3C">Referenced W3C Web Accessibility Tutorial</a>
 <h2>Image</h2>
 <form data-name="table">
   <div class="form-group">
@@ -57,18 +58,17 @@ class WcagImage extends HTMLElement {
   }
 
   writeImageHtml(data) {
-    let image;
+    let image
 
     // Image have long description
-    if(data.haveLongDesc && data.longDescLink){
-      image = `
-      ${openTag('p')}
-        ${openTag('img', {src: data.imgSrc, alt: data.imgAlt}, true)}
-        ${openTag('a', {href: data.longDescLink})}${data.linkText}${closeTag('a')}
-      ${closeTag('p')}`
-    }
-    else{
-      image = openTag('img', {src: data.imgSrc, alt: data.imgAlt}, true)
+    if (data.haveLongDesc && data.longDescLink && (data.longDescText == "" || data.longDescText == undefined)) {
+      image = `${openTag("p")}\n\t${openTag("img", { src: data.imgSrc, alt: data.imgAlt }, true)}\n\t${openTag("a", { href: data.longDescLink })}${data.linkText}${closeTag("a")}\n${closeTag("p")}`
+    } else if (data.longDescText != "") {
+      image = image = `${openTag("figure", { role: "group" })}\n\t${openTag("img", { src: data.imgSrc, alt: data.imgAlt }, true)}\n\t${openTag("figcaption")}${data.longDescText}${closeTag(
+        "figcaption"
+      )}\n${closeTag("figure")}`
+    } else {
+      image = openTag("img", { src: data.imgSrc, alt: data.imgAlt }, true)
     }
 
     return image
@@ -86,25 +86,23 @@ class WcagImage extends HTMLElement {
       }
     })
 
-    this.shadowRoot.querySelector("#longDescLink").addEventListener('keyup', (e) => {
-      console.log(e.target.value)
-
+    this.shadowRoot.querySelector("#longDescLink").addEventListener("keyup", (e) => {
       this.shadowRoot.querySelector("#desc-text").readOnly = e.target.value != ""
-
     })
 
-    this.shadowRoot.querySelector("#generate").addEventListener('click', (e) => {
+    this.shadowRoot.querySelector("#desc-text").addEventListener("keyup", (e) => {
+      this.shadowRoot.querySelector("#linkText").readOnly = e.target.value != ""
+      this.shadowRoot.querySelector("#longDescLink").readOnly = e.target.value != ""
+    })
+
+    this.shadowRoot.querySelector("#generate").addEventListener("click", (e) => {
       e.preventDefault()
 
       let data = this.getImageFormData()
       let image = this.writeImageHtml(data)
 
-      document.querySelector("code").innerHTML = image
+      document.querySelector("pre").innerHTML = `<code>${image}</code>`
     })
-
-  }
-
-  disconnectedCallback() {
   }
 }
 

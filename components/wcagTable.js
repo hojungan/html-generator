@@ -4,6 +4,7 @@ tableTemplate.innerHTML = `
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
 
 <div class="container">
+<a href="https://www.w3.org/WAI/tutorials/tables/one-header/#table-with-header-cells-in-the-top-row-only" title="Web Accessibility Tutorial by W3C">Referenced W3C Web Accessibility Tutorial</a>
 <h2>Table</h2>
 <form data-name="table">
   <div class="form-group">
@@ -67,40 +68,44 @@ class WcagTable extends HTMLElement {
 
     for (let i = 0; i < rows; i++) {
       if (i == 0) {
-        body += `${openTag("tr")}`
+        body += `\t${openTag("tr")}`
       } else {
-        body += 
-        `
-        ${openTag("tr")}`
+        body += `\n\t${openTag("tr")}`
       }
 
       for (let j = 0; j < cols; j++) {
         // header is first row
         if (header == "row" && i == 0) {
-          body += `
-          ${openTag("th")}Header Cell ${j + 1}${closeTag("th")}`
+          body += `\n\t\t${openTag("th")}Header Cell ${j + 1}${closeTag("th")}`
         } else if (header == "col" && j == 0) {
-          body += `
-          ${openTag("th")}Header Cell ${i + 1}${closeTag("th")}`
+          body += `\n\t\t${openTag("th")}Header Cell ${i + 1}${closeTag("th")}`
         } else {
-          body += `
-          ${openTag("td")}Cell ${j + 1}${closeTag("td")}`
+          body += `\n\t\t${openTag("td")}Cell ${j + 1}${closeTag("td")}`
         }
       }
-      body += `
-      ${closeTag("tr")}`
+      body += `\n\t${closeTag("tr")}`
     }
 
-    let table = `
-    ${openTag("table")}
-      ${openTag("caption")}${caption}${closeTag("caption")}
-      ${body}
-    ${closeTag("table")}`
+    let table = `${openTag("table", { class: "wcag-table" })}\n\t${openTag("caption")}${caption}${closeTag("caption")}\n${body}\n${closeTag("table")}`
 
     return table
   }
 
-
+  writeTableCSS() {
+    return `
+    .wcag-table {
+      border-collapse: collapse;
+      border: 1px solid #333;
+    } 
+    
+    .wcag-table th,
+    .wcag-table td {
+      border: 1px solid #333;
+      padding: 5px;
+      text-align: center;
+    }
+    `
+  }
 
   connectedCallback() {
     this.shadowRoot.querySelector("#generate").addEventListener("click", (e) => {
@@ -110,11 +115,20 @@ class WcagTable extends HTMLElement {
 
       let html = this.writeTableHTML(data)
 
-      document.querySelector("code").innerHTML = html
-    })
-  }
+      document.querySelector("pre").innerHTML = `<code>${html}</code>`
 
-  disconnectedCallback() {
+      html = html.replace(/<span>/g, "")
+      html = html.replace(/<\/span>/g, "")
+      html = html.replace(/&lt;/g, "<")
+      html = html.replace(/&gt;/g, ">")
+
+      document.querySelector("#previewHTML").innerHTML = html
+      let pre = document.createElement("pre")
+      let code = document.createElement("code")
+      code.innerHTML = this.writeTableCSS()
+      pre.appendChild(code)
+      document.querySelector("#previewCSS").appendChild(pre)
+    })
   }
 }
 

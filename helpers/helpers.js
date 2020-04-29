@@ -1,18 +1,17 @@
-let openTag = (name, attributes, selfClosing=false) => {
-  let tag = `&lt;${name}`
+let openTag = (name, attributes, selfClosing = false) => {
+  let tag = `<span>&lt;${name}`
 
-  if(attributes){
-    for(att in attributes){
+  if (attributes) {
+    for (att in attributes) {
       tag = tag + ` ${att}="${attributes[att]}"`
     }
-  }
-  else{
-    tag = `&lt;${name}` 
+  } else {
+    tag = `<span>&lt;${name}`
   }
 
-  return selfClosing ? tag + ' /&gt;' : tag + '&gt;'
+  return selfClosing ? tag + " /&gt;</span>" : tag + "&gt;</span>"
 }
 
 let closeTag = (name) => {
-  return `&lt;/${name}&gt;`
+  return `<span>&lt;/${name}&gt;</span>`
 }
