@@ -6,7 +6,7 @@ imageTemplate.innerHTML = `
 <div class="container">
 <a href="https://www.w3.org/WAI/tutorials/images/complex/#a-text-link-to-the-long-description-adjacent-to-the-image" title="Web Accessibility Tutorial by W3C">Referenced W3C Web Accessibility Tutorial</a>
 <h2>Image</h2>
-<form data-name="table">
+<form data-name="image">
   <div class="form-group">
     <label for="source">Source</label>
     <input id="source" class="form-control" placeholder="Image Source"/>

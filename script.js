@@ -15,8 +15,7 @@ buttons.forEach((btn) => {
         componentContainer.innerHTML = "<wcag-image></wcag-image>"
         break
       case "accordion":
-        componentContainer.innerHTML = ""
-        alert("Coming Soon!!")
+        componentContainer.innerHTML = "<wcag-accordion></wcag-accordion>"
         break
     }
   })
