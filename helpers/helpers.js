@@ -3,7 +3,11 @@ let openTag = (name, attributes, selfClosing = false) => {
 
   if (attributes) {
     for (att in attributes) {
-      tag = tag + ` ${att}="${attributes[att]}"`
+      try {
+        tag = tag + ` ${att}="${attributes[att]}"`
+      } catch {
+        tag = tag + ` ${att}`
+      }
     }
   } else {
     tag = `<span>&lt;${name}`

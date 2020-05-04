@@ -108,12 +108,56 @@ class WcagAccordion extends HTMLElement {
     this.removeItem(preview.querySelectorAll(".accordion-item button"))
   }
 
+  writeAccordionHTML() {
+    let accordionGroup = `<div id="accordionGroup" class="Accordion" data-allow-toggle>`
+
+    let html
+
+    for (let i = 0; i < this.accordionItems.length; i++) {
+      html = `
+      ${openTag("h3")}
+        ${openTag("button", { "aria-expanded": "true", class: "Accordion-trigger", "aria-controls": `sect${i + 1}`, id: `accordion${i + 1}id` })}
+          ${openTag("span", { class: "Accordion-title" })}
+            ${this.accordionItems.title}
+            ${openTag("span", { class: "Accordion-icon" })}${closeTag("span")}
+          ${closeTag("span")}
+        ${closeTag("button")}
+      ${closeTag("h3")}
+      `
+
+      if (i == 0) {
+        html += `${openTag("div", { id: `sect${i + 1}`, role: "region", "aria-labelledby": `accordion${i + 1}id`, class: "Accordion-panel" })}`
+      } else {
+        html += `${openTag("div", { id: `sect${i + 1}`, role: "region", "aria-labelledby": `accordion${i + 1}id`, class: "Accordion-panel", hidden: "" })}`
+      }
+
+      html += `
+        <div>
+          <p>${this.accordionItems.content}</p>
+        </div>
+      </div>
+      `
+    }
+
+    html += "</div>"
+
+    return html
+  }
+
   connectedCallback() {
     this.shadowRoot.querySelector("#addItem").addEventListener("click", (e) => {
       e.preventDefault()
 
       this.addAccordionItem()
       this.showAccordionItems()
+    })
+
+    this.shadowRoot.querySelector("#generate").addEventListener("click", (e) => {
+      e.preventDefault()
+
+      let html = this.writeAccordionHTML()
+
+      document.querySelector("pre").innerHTML = `<code>${html}</code>`
     })
   }
 }
