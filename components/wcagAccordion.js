@@ -109,39 +109,32 @@ class WcagAccordion extends HTMLElement {
   }
 
   writeAccordionHTML() {
-    let accordionGroup = `<div id="accordionGroup" class="Accordion" data-allow-toggle>`
+    let accordionGroup = `${openTag("div", { id: "accordionGroup", class: "Accordion", "data-allow-toggle": "" })}\n`
 
-    let html
+    let html = ""
 
     for (let i = 0; i < this.accordionItems.length; i++) {
-      html = `
-      ${openTag("h3")}
-        ${openTag("button", { "aria-expanded": "true", class: "Accordion-trigger", "aria-controls": `sect${i + 1}`, id: `accordion${i + 1}id` })}
-          ${openTag("span", { class: "Accordion-title" })}
-            ${this.accordionItems.title}
-            ${openTag("span", { class: "Accordion-icon" })}${closeTag("span")}
-          ${closeTag("span")}
-        ${closeTag("button")}
-      ${closeTag("h3")}
-      `
+      html += `\t${openTag("h3")}\n\t\t${openTag("button", {
+        "aria-expanded": "true",
+        class: "Accordion-trigger",
+        "aria-controls": `sect${i + 1}`,
+        id: `accordion${i + 1}id`
+      })}\n\t\t\t${openTag("span", { class: "Accordion-title" })}\n\t\t\t\t${this.accordionItems[i].title}\n\t\t\t\t${openTag("span", { class: "Accordion-icon" })}${closeTag(
+        "span"
+      )}\n\t\t\t${closeTag("span")}\n\t\t${closeTag("button")}\n\t${closeTag("h3")}\n`
 
       if (i == 0) {
-        html += `${openTag("div", { id: `sect${i + 1}`, role: "region", "aria-labelledby": `accordion${i + 1}id`, class: "Accordion-panel" })}`
+        html += `\t${openTag("div", { id: `sect${i + 1}`, role: "region", "aria-labelledby": `accordion${i + 1}id`, class: "Accordion-panel" })}`
       } else {
-        html += `${openTag("div", { id: `sect${i + 1}`, role: "region", "aria-labelledby": `accordion${i + 1}id`, class: "Accordion-panel", hidden: "" })}`
+        html += `\t${openTag("div", { id: `sect${i + 1}`, role: "region", "aria-labelledby": `accordion${i + 1}id`, class: "Accordion-panel", hidden: "" })}`
       }
 
-      html += `
-        <div>
-          <p>${this.accordionItems.content}</p>
-        </div>
-      </div>
-      `
+      html += `\n\t\t${openTag("div")}\n\t\t\t${this.accordionItems[i].content}\n\t\t${closeTag("div")}\n\t${closeTag("div")}\n`
     }
 
-    html += "</div>"
+    accordionGroup = accordionGroup + html + `${closeTag("div")}`
 
-    return html
+    return accordionGroup
   }
 
   connectedCallback() {
@@ -158,6 +151,13 @@ class WcagAccordion extends HTMLElement {
       let html = this.writeAccordionHTML()
 
       document.querySelector("pre").innerHTML = `<code>${html}</code>`
+
+      html = html.replace(/<span>/g, "")
+      html = html.replace(/<\/span>/g, "")
+      html = html.replace(/&lt;/g, "<")
+      html = html.replace(/&gt;/g, ">")
+
+      document.querySelector("#previewHTML").innerHTML = html
     })
   }
 }
