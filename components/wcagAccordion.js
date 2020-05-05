@@ -158,6 +158,16 @@ class WcagAccordion extends HTMLElement {
       html = html.replace(/&gt;/g, ">")
 
       document.querySelector("#previewHTML").innerHTML = html
+
+      let script = document.createElement("script")
+      script.src = "wcagAccordion.js"
+      document.querySelector("body").appendChild(script)
+
+      let cssSource = document.createElement("a")
+      cssSource.href = "wcagAccordion.css"
+      cssSource.innerText = "Download CSS here"
+      cssSource.target = "_blank"
+      document.querySelector("#previewCSS").appendChild(cssSource)
     })
   }
 }

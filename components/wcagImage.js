@@ -102,6 +102,17 @@ class WcagImage extends HTMLElement {
       let image = this.writeImageHtml(data)
 
       document.querySelector("pre").innerHTML = `<code>${image}</code>`
+
+      image = image.replace(/<span>/g, "")
+      image = image.replace(/<\/span>/g, "")
+      image = image.replace(/&lt;/g, "<")
+      image = image.replace(/&gt;/g, ">")
+
+      document.querySelector("#previewHTML").innerHTML = image
+      let pre = document.createElement("pre")
+      let code = document.createElement("code")
+      pre.appendChild(code)
+      document.querySelector("#previewCSS").appendChild(pre)
     })
   }
 }

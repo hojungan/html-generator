@@ -9,6 +9,12 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="wcagAccordion.css">
   <title>WCAG HTML Generator</title>
+  <script>
+    if (/*@cc_on!@*/ false || !!document.documentMode ) {
+      console.log( "You are using IE" )
+      alert( "This site is not compatible with IE\nThis page is best viewed on Chrome, FireFox or Chromium based browsers" )
+    }
+  </script>
 </head>
 
 <body>
@@ -51,7 +57,10 @@
   </section>
 
   <footer>
-    By Hojung An - 2020
+    <p>Created By Hojung An - 2020</p>
+    <p>Powered By <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components" title="MDN Web Components Docs"
+        target="_blank">Web
+        Components</a></p>
   </footer>
 
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -67,8 +76,7 @@
   <script src="components/wcagTable.js" defer></script>
   <script src="components/wcagImage.js" defer></script>
   <script src="components/wcagAccordion.js" defer></script>
-  <script src="script.js" defer></script>
-  <script src="wcagAccordion.js" defer></script>
+  <script src="script.js"></script>
 </body>
 
 </html>

@@ -8,6 +8,7 @@
 "use strict"
 
 Array.prototype.slice.call(document.querySelectorAll(".Accordion")).forEach(function (accordion) {
+  console.log(accordion)
   // Allow for multiple accordion sections to be expanded at the same time
   var allowMultiple = accordion.hasAttribute("data-allow-multiple")
   // Allow for each toggle to both open and close individually

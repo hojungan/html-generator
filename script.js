@@ -18,6 +18,11 @@ buttons.forEach((btn) => {
         componentContainer.innerHTML = "<wcag-accordion></wcag-accordion>"
         break
     }
+
+    try {
+      document.querySelector("#previewHTML").innerHTML = ""
+      document.querySelector("#previewCSS").removeChild(document.querySelector("#previewCSS pre"))
+    } catch {}
   })
 })
 
